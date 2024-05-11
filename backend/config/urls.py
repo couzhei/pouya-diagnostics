@@ -27,5 +27,5 @@ def hello_world(request):
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("hello-world/", hello_world),
-    path("demo-app/", include("demo_app.urls")),
+    path("demo-app1/", include("demo_app1.urls")),
 ]

@@ -4,4 +4,4 @@ from django.shortcuts import render
 
 # Create your views here.
 def hello_app(request):
-    return HttpResponse("Hello from demo_app!")
+    return HttpResponse("Hello from demo_app1!")
