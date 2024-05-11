@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.http import HttpResponse
-from django.urls import path
+from django.urls import include, path
 
 
 def hello_world(request):
@@ -27,4 +27,5 @@ def hello_world(request):
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("hello-world/", hello_world),
+    path("demo-app/", include("demo_app.urls")),
 ]
