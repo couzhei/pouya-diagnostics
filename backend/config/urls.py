@@ -28,4 +28,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("hello-world/", hello_world),
     path("demo-app1/", include("demo_app1.urls")),
+    # just to demonstrate the how of the versioning in our views
+    # <version> is passed through URL, still can't work my head around these ideas
+    path("<version>/demo-app-version/", include("demo_app1.urls")),
 ]

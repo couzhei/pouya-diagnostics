@@ -12,3 +12,10 @@ def hello_world_drf(request, *args, **kwargs):
 # Create your views here.
 def hello_app(request):
     return HttpResponse("Hello from demo_app1!")
+
+
+# This is a demo of django's API versioning
+@api_view(["GET"])
+def demo_version(request, *args, **kwargs):
+    version = request.version
+    return Response(data={"msg": f"You have hit {version} of demo-api"})
