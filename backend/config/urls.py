@@ -30,5 +30,7 @@ urlpatterns = [
     path("demo-app1/", include("demo_app1.urls")),
     # just to demonstrate the how of the versioning in our views
     # <version> is passed through URL, still can't work my head around these ideas
+    # It is important to name the URL parameter
+    # <version> since DRF is expecting it to be <version> by default.
     path("<version>/demo-app-version/", include("demo_app1.urls")),
 ]
