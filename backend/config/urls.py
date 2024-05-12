@@ -21,11 +21,20 @@ from django.urls import include, path
 
 
 def hello_world(request):
-    return HttpResponse("Hello World!")
+    return HttpResponse(
+        "Hello World! This message has been brought to you by"
+        " the main Django framework."
+    )
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("hello-world/", hello_world),
     path("demo-app1/", include("demo_app1.urls")),
+    # just to demonstrate the how of the versioning in our views
+    # <version> is passed through URL, still can't work my head around these ideas
+    # It is important to name the URL parameter
+    # <version> since DRF is expecting it to be <version> by default.
+    # It is advisable to add <version> at the beginning of the URL
+    path("<version>/demo-app-version/", include("demo_app1.urls")),
 ]
