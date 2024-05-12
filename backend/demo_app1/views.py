@@ -3,10 +3,28 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+# DRF gives us @api_view to work with regular Django
+# functional views. Adding the decorator converts the
+# usual Django HttpRequest into a Request instance.
 
-@api_view(["GET"])
+
+# The decorator takes a list of all the HTTP-allowed methods for the
+# given functional view block; any method that is not listed will
+# not be allowed. By default, if no HTTP method is mentioned, then
+# it will only allow GET methods.
+@api_view(["GET", "POST", "PUT"])
 def hello_world_drf(request, *args, **kwargs):
-    return Response(data={"msg": "Hello from rest api"})
+    # For a response to views, we should use
+    # the Response class from DRF rather than
+    # HttpResponse from Django; it automatically
+    # takes care of bypassing cross-site request
+    # forgery (CSRF) for views and gives us a UI
+    # to interact with the backend service.
+    if request.method == "POST":
+        return Response(data={"msg": "POST response block from the rest api"})
+    elif request.method == "PUT":
+        return Response(data={"msg": "PUT response block from the rest api"})
+    return Response(data={"msg": "Hello from the rest api via GET response block"})
 
 
 # Create your views here.
@@ -48,8 +66,30 @@ def demo_version(request, *args, **kwargs):
 # can be only linked to a class-based view, so we are using APIView here)
 
 from demo_app1 import custom_versions
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
+
+# DRF provides two types of class-based views: APIView and Generic Views.
 from rest_framework.views import APIView
+
+# Let’s implement a quick example with APIView to learn more:
+
+# from rest_framework.views import APIView
+# class DemoAPIView(APIView):
+#     def get(self, request, *args, **kwargs):
+#         return Response(data={'msg': 'get request block'})
+#     def post(self, request, *args, **kwargs):
+#         return Response(data={'msg': 'post request block'})
+#     def delete(self, request, *args, **kwargs):
+#         return Response(data={'msg': 'delete request block'})
+# Linking an APIView implemented class to the urls.py file is different
+# from how we linked functional views earlier. Instead, we use <class name>.as_view()
+# to link it to the corresponding URL:
+
+# urlpatterns = [
+#     ...
+#     path('apiview-class/', views.DemoAPIView.as_view())
+# ]
 
 
 # first exposure to Class-based Views
@@ -58,6 +98,12 @@ from rest_framework.views import APIView
 # note that for the time being, the View and APIView are the same in this context
 # and we'll get to the minor detailed differences later
 class DemoView(APIView):
+    # Using the APIView class converts the default Django HttpRequest into
+    # a Request object, and the handler methods can return DRF’s
+    # Response object rather than Django’s HttpResponse. It supports
+    # additional policy attributes such as authentication_classes,
+    # permission_classes, and versioning_classes, which make the
+    # life of a developer much easier.
     versioning_class = custom_versions.DemoViewVersion
 
     def get(self, request, *args, **kwargs):
