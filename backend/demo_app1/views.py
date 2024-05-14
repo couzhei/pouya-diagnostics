@@ -110,6 +110,15 @@ class DemoView(APIView):
         version = request.version
         return Response(data={"msg": f" You have hit {version}"})
 
+    def delete(self, request, *args, **kwargs):
+        return Response(data={"msg": " This is the delete block"})
+
+    def put(self, request, *args, **kwargs):
+        return Response({"msg": "This is the put block"})
+
+    def post(self, request, *args, **kwargs):
+        return Response(data={"msg": "This is the post block"})
+
 
 class AnotherView(APIView):
     versioning_class = custom_versions.AnotherViewVersion
