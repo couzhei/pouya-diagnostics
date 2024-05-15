@@ -50,6 +50,7 @@ THIRD_PARTY_APPS = [
 
 CUSTOM_APPS = [
     "demo_app1",
+    "core",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + THIRD_PARTY_APPS
