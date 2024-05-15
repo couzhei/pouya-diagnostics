@@ -8,6 +8,9 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
+
+This form of foldering and separating settings are inspired by
+https://www.digitalocean.com/community/tutorials/how-to-harden-your-production-django-project
 """
 
 import os
@@ -47,6 +50,7 @@ THIRD_PARTY_APPS = [
 
 CUSTOM_APPS = [
     "demo_app1",
+    "core",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + THIRD_PARTY_APPS

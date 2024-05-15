@@ -37,4 +37,5 @@ urlpatterns = [
     # <version> since DRF is expecting it to be <version> by default.
     # It is advisable to add <version> at the beginning of the URL
     path("<version>/demo-app-version/", include("demo_app1.urls")),
+    path("<version>/core/", include("core.urls")),
 ]

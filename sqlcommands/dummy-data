@@ -1,0 +1,79 @@
+DROP TABLE IF EXISTS customers;
+DROP TABLE IF EXISTS employees;
+DROP TYPE IF EXISTS job_type, job_authority;
+
+CREATE TYPE job_type AS ENUM ('planning expert', 'inspector', 'engineer');
+CREATE TYPE job_authority AS ENUM ('admin', 'M2', 'M3', 'normal');
+
+/*
+In the above commands, we first create two ENUM types 
+for job_type and job_authority. Then, we create the 
+employees table with the specified columns.
+
+Note that SERIAL is a PostgreSQL-specific data 
+type that creates an auto-incrementing integer column. 
+If you want to use a UUID instead, you can use UUID as 
+the data type and set it as the default value using 
+DEFAULT uuid_generate_v4().
+*/
+
+CREATE TABLE employees (
+    ID SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    family_name VARCHAR(50) NOT NULL,
+    personal_code VARCHAR(20) NOT NULL,  -- Assuming personal code is a string
+    phonenumber VARCHAR(20) NOT NULL,
+    job_type job_type NOT NULL,
+    job_authority job_authority NOT NULL,
+    job_experience TEXT,
+    email VARCHAR(100) NOT NULL,
+	username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL  -- Assuming password will be hashed and stored as a string
+
+);
+
+CREATE TABLE customers (
+    customer_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    family_name VARCHAR(50) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+
+
+-- Populating with some dummy data
+-- Enable the pgcrypto extension for password hashing
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- Insert dummy data for employees
+INSERT INTO employees (name, family_name, personal_code, phonenumber, job_type, job_authority, job_experience, email, username, password)
+VALUES
+    ('John', 'Doe', '123456789', '+1 (555) 123-4567', 'planning expert', 'admin', 'Over 10 years of experience in urban planning.', 'john.doe@example.com', 'johndoe', crypt('password123', gen_salt('md5'))),
+    ('Jane', 'Smith', '987654321', '+1 (555) 987-6543', 'inspector', 'M2', 'Extensive experience in building inspections.', 'jane.smith@example.com', 'janesmith', crypt('password456', gen_salt('md5'))),
+    ('Michael', 'Johnson', '456789123', '+1 (555) 456-7890', 'engineer', 'M3', 'Proficient in civil engineering projects.', 'michael.johnson@example.com', 'michaeljohnson', crypt('password789', gen_salt('md5'))),
+    ('Emily', 'Brown', '789123456', '+1 (555) 789-0123', 'planning expert', 'normal', 'Skilled in urban planning and design.', 'emily.brown@example.com', 'emilybrown', crypt('password321', gen_salt('md5'))),
+    ('David', 'Wilson', '159753852', '+1 (555) 159-7538', 'inspector', 'M2', 'Knowledgeable in building codes and regulations.', 'david.wilson@example.com', 'davidwilson', crypt('password654', gen_salt('md5'))),
+    ('Olivia', 'Davis', '753951456', '+1 (555) 753-9514', 'engineer', 'M3', 'Experienced in structural engineering.', 'olivia.davis@example.com', 'oliviadavis', crypt('password987', gen_salt('md5'))),
+    ('William', 'Anderson', '951357852', '+1 (555) 951-3578', 'planning expert', 'normal', 'Passionate about sustainable urban development.', 'william.anderson@example.com', 'williamanderson', crypt('password159', gen_salt('md5'))),
+    ('Sophia', 'Thomas', '753159456', '+1 (555) 753-1594', 'inspector', 'M2', 'Skilled in building inspections and code compliance.', 'sophia.thomas@example.com', 'sophiathomas', crypt('password753', gen_salt('md5'))),
+    ('Alexander', 'Martin', '159753159', '+1 (555) 159-7531', 'engineer', 'M3', 'Experienced in infrastructure design and construction.', 'alexander.martin@example.com', 'alexandermartin', crypt('password951', gen_salt('md5'))),
+    ('Isabella', 'Lee', '357951753', '+1 (555) 357-9517', 'planning expert', 'normal', 'Knowledgeable in urban planning and policy.', 'isabella.lee@example.com', 'isabellalee', crypt('password357', gen_salt('md5'))),
+    ('Jacob', 'Hernandez', '951357951', '+1 (555) 951-3579', 'inspector', 'M2', 'Skilled in building inspections and project management.', 'jacob.hernandez@example.com', 'jacobhernandez', crypt('password951', gen_salt('md5'))),
+    ('Ava', 'Diaz', '753159753', '+1 (555) 753-1597', 'engineer', 'M3', 'Experienced in transportation engineering.', 'ava.diaz@example.com', 'avadiaz', crypt('password753', gen_salt('md5'))),
+    ('Daniel', 'Morales', '159753753', '+1 (555) 159-7537', 'planning expert', 'normal', 'Passionate about urban design and community development.', 'daniel.morales@example.com', 'danielmorales', crypt('password159', gen_salt('md5'))),
+    ('Emma', 'Reyes', '357951357', '+1 (555) 357-9513', 'inspector', 'M2', 'Skilled in building inspections and code enforcement.', 'emma.reyes@example.com', 'emmareyes', crypt('password357', gen_salt('md5'))),
+    ('Benjamin', 'Castillo', '951357357', '+1 (555) 951-3573', 'engineer', 'M3', 'Experienced in water resources engineering.', 'benjamin.castillo@example.com', 'benjamincastillo', crypt('password951', gen_salt('md5'))),
+    ('Abigail', 'Flores', '753159357', '+1 (555) 753-1593', 'planning expert', 'normal', 'Knowledgeable in urban planning and GIS.', 'abigail.flores@example.com', 'abigailflores', crypt('password753', gen_salt('md5'))),
+    ('Lucas', 'Gutierrez', '159753357', '+1 (555) 159-7533', 'inspector', 'M2', 'Skilled in building inspections and project coordination.', 'lucas.gutierrez@example.com', 'lucasgutierrez', crypt('password159', gen_salt('md5'))),
+    ('Mia', 'Ramirez', '357951159', '+1 (555) 357-9511', 'engineer', 'M3', 'Experienced in environmental engineering.', 'mia.ramirez@example.com', 'miaramirez', crypt('password357', gen_salt('md5'))),
+    ('Oliver', 'Jimenez', '951357159', '+1 (555) 951-3571', 'planning expert', 'normal', 'Passionate about urban planning and community engagement.', 'oliver.jimenez@example.com', 'oliverjimenez', crypt('password951', gen_salt('md5'))),
+    ('Harper', 'Vargas', '753159159', '+1 (555) 753-1591', 'inspector', 'M2', 'Skilled in building inspections and code interpretation.', 'harper.vargas@example.com', 'harpervargas', crypt('password753', gen_salt('md5')));
+
+-- Populate dummy data for customers
+INSERT INTO customers (first_name, family_name, phone_number, email)
+VALUES
+    ('John', 'Doe', '+1 (555) 123-4567', 'john.doe@example.com'),
+    ('Jane', 'Smith', '+1 (555) 987-6543', 'jane.smith@example.com'),
+    ('Michael', 'Johnson', '+1 (555) 456-7890', 'michael.johnson@example.com'),
+    ('Emily', 'Brown', '+1 (555) 789-0123', 'emily.brown@example.com'),
+    ('David', 'Wilson', '+1 (555) 159-7538', 'david.wilson@example.com');
